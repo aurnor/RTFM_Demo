@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 
 namespace WebApp1.Service
 {
-    public class ConstosoDBService
+    public class ConstosoDBService2
     {
 
         public DataSet GetDataSetByCategory(string inpString)
