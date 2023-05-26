@@ -17,10 +17,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-
-        this.Request.Headers.TryGetValue("username", out var customerName);
-        constosoDBService.LogUserExist(customerName);
-
+        var value = HttpContext.Request.Form["pleaseWork"];
+        constosoDBService.GetDataSetByCategory(value);
 
         return View();
     }
