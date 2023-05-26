@@ -6,6 +6,7 @@ namespace WebApp1.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private const string SQLConnectionString = "Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;";
 
     public HomeController(ILogger<HomeController> logger)
     {
