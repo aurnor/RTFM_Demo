@@ -7,12 +7,10 @@ namespace WebApp1.Service
     {
         public void LogUserExist(string customerName)
         {
-            string connectionString = "Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;";
-            string commandText = "SELECT * FROM Customers WHERE CustomerName = '" + customerName + "';";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection("Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;"))
             {
-                SqlCommand command = new SqlCommand(commandText, connection);
+                SqlCommand command = new SqlCommand("SELECT * FROM Customers WHERE CustomerName = '" + customerName + "';", connection);
 
                 connection.Open();
 
