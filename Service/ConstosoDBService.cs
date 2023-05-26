@@ -1,25 +1,48 @@
-﻿
+﻿using System.Data;
 using System.Data.SqlClient;
 
 namespace WebApp1.Service
 {
-    public class ConstosoDBService
+    class ConstosoDBService
     {
-        public void LogUserExist(string customerName)
+        string connectionString;
+
+        public DataSet GetDataSetByCategory(string inpString)
         {
-
-            using (SqlConnection connection = new SqlConnection("Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;"))
+            // BAD: the category might have SQL special characters in it
+            using (var connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("SELECT * FROM Customers WHERE CustomerName = '" + customerName + "';", connection);
+                var query1 = "SELECT ITEM,PRICE FROM PRODUCT WHERE ITEM_CATEGORY='"
+                  + inpString + "' ORDER BY PRICE";
+                var adapter = new SqlDataAdapter(query1, connection);
+                var result = new DataSet();
+                adapter.Fill(result);
+                return result;
+            }
 
-                connection.Open();
+            // GOOD: use parameters with stored procedures
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var adapter = new SqlDataAdapter("ItemsStoredProcedure", connection);
+                adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                var parameter = new SqlParameter("category", inpString);
+                adapter.SelectCommand.Parameters.Add(parameter);
+                var result = new DataSet();
+                adapter.Fill(result);
+                return result;
+            }
 
-                SqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    Console.WriteLine(reader["CustomerName"].ToString());
-                }
+            // GOOD: use parameters with dynamic SQL
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var query2 = "SELECT ITEM,PRICE FROM PRODUCT WHERE ITEM_CATEGORY="
+                  + "@category ORDER BY PRICE";
+                var adapter = new SqlDataAdapter(query2, connection);
+                var parameter = new SqlParameter("category", inpString);
+                adapter.SelectCommand.Parameters.Add(parameter);
+                var result = new DataSet();
+                adapter.Fill(result);
+                return result;
             }
         }
     }
