@@ -6,7 +6,8 @@ using WebApp1.Service;
 namespace WebApp1.Controllers;
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;   
+    private readonly ILogger<HomeController> _logger;
+    private const string ApplicationSecret = "BdG8Q~O5DAEpJubHdaHEYzvXrCh.M1Zf0RyatfDS";
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
