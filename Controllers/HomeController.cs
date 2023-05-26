@@ -21,7 +21,6 @@ public class HomeController : Controller
         this.Request.Headers.TryGetValue("username", out var customerName);
         constosoDBService.LogUserExist(customerName);
 
-
         return View();
     }
 
