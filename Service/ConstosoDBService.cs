@@ -9,6 +9,7 @@ namespace WebApp1.Service
 
         public DataSet GetDataSetByCategory(string inpString)
         {
+
             // BAD: the category might have SQL special characters in it
             using (var connection = new SqlConnection(connectionString))
             {
