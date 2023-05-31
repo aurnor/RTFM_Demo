@@ -13,13 +13,15 @@ namespace WebApp1.Service
             // BAD: the category might have SQL special characters in it
             using (var connection = new SqlConnection(connectionString))
             {
-                var query1 = "SELECT ITEM,PRICE,LABEL FROM PRODUCT WHERE ITEM_CATEGORY='"
-                  + inpString + "' ORDER BY PRICE";
-                var adapter = new SqlDataAdapter(query1, connection);
+                var command = new SqlCommand("GetProductsByCategory", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@category", inpString);
+                var adapter = new SqlDataAdapter(command);
                 var result = new DataSet();
                 adapter.Fill(result);
                 return result;
             }
+
         }
     }
 }
